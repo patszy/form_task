@@ -40,6 +40,28 @@ body {
     transition: .2s;
 }
 
+.label::before, .label::after{
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	width: 0%;
+	height: 2px;
+	background-color: var(--special-color);
+	transition: .4s;
+}
+
+.label::before{
+	right: 50%;
+}
+
+.label::after{
+	left: 50%;
+}
+
+.label.focus:before, .label.focus:after{
+	width: 50%;
+}
+
 .section input {
     width: 90%;
     padding: 5px 10px;
@@ -48,10 +70,6 @@ body {
     background-color: transparent;
     color: var(--main-light-color);
     outline: 0;
-}
-
-.label.focus {
-    border-bottom: 2px solid var(--special-color);
 }
 
 .section h5 {
@@ -63,15 +81,28 @@ body {
 }
 
 .label.focus h5 {
-    transform: translateY(-30px);
+    transform: translateY(-30px) scale(.8);
 }
 
-.label .fas {
+.label .fas,
+.label .far {
     transition: .2s;
 }
 
 .label.focus .fas {
     color: var(--special-color);
+}
+
+.label .far.fa-eye {
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+    margin: 7px 0;
+}
+
+.label .far.fa-eye:hover {
+    color: var(--special-color);
+    transform: scale(1.2);
 }
 
 .img {
@@ -80,7 +111,7 @@ body {
 
 .section-login input[type="submit"] {
     display: block;
-    margin: 30px auto 10px;
+    margin: 20px auto 10px;
     border: 0;
     padding: 10px 20px;
     border-radius: 50px;
@@ -107,5 +138,4 @@ body {
 
 .forgot:hover {
     color: var(--special-color);
-    transform: scale(.9);
 }

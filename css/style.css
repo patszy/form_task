@@ -26,7 +26,20 @@ body {
 }
 
 .section {
+    position: relative;
     text-align: center;
+    background-color: var(--main-light-color);
+    padding: 50px 30px;
+    border-radius: 20px;
+    z-index: 10;
+}
+
+.img {
+    width: 100px;
+}
+
+.section-register {
+    display: none;
 }
 
 .label {
@@ -35,8 +48,8 @@ body {
     margin: 20px 0;
     padding: 10px 0;
     background-color: transparent;
-    color: var(--main-light-color);
-    border-bottom: 2px solid var(--main-light-color);
+    color: var(--main-dark-color);
+    border-bottom: 2px solid var(--main-dark-color);
     transition: .2s;
 }
 
@@ -59,16 +72,16 @@ body {
 }
 
 .label.focus:before, .label.focus:after{
-	width: 50%;
+	width: 40%;
 }
 
-.section input {
+.section .input {
     width: 90%;
     padding: 5px 10px;
     font-size: 1em;
     border: 0;
     background-color: transparent;
-    color: var(--main-light-color);
+    color: var(--main-dark-color);
     outline: 0;
 }
 
@@ -78,6 +91,7 @@ body {
     margin: 5px;
     left: 10%;
     transition: .2s;
+    cursor: text;
 }
 
 .label.focus h5 {
@@ -105,37 +119,57 @@ body {
     transform: scale(1.2);
 }
 
-.img {
-    width: 100px;
-}
-
-.section-login input[type="submit"] {
+.submit {
     display: block;
     margin: 20px auto 10px;
     border: 0;
     padding: 10px 20px;
     border-radius: 50px;
     background-color: var(--special-color);
-    color: var(--main-light-color);
+    color: var(--main-dark-color);
     cursor: pointer;
     font-weight: bold;
     font-size: 1em;
     transition: .2s;
 }
 
-.section-login input[type="submit"]:hover {
+.submit:hover {
     border: 0;
-    color: var(--main-dark-color);
+    color: var(--main-light-color);
     transform: scale(.9);
 }
 
-.forgot {
+.forgot, .door-handle {
     font-size: 0.8em;
-    color: var(--main-light-color);
+    color: var(--main-dark-color);
     text-decoration: none;
     transition: .2s;
 }
 
 .forgot:hover {
     color: var(--special-color);
+}
+
+.section-register {
+
+}
+
+.door {
+    width: 250px;
+    height: 450px;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--special-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(10%, -50%);
+    z-index: 0;
+    transition: all .7s;
+}
+
+.door.login  {
+    transform: translate(-105%, -50%);
 }

@@ -38,7 +38,7 @@ body {
     width: 100px;
 }
 
-.section-register {
+.section-register{
     display: none;
 }
 
@@ -85,10 +85,25 @@ body {
     outline: 0;
 }
 
+.section .input-big {
+    height: 40px;
+}
+
+.section .input-radio {
+    width: 43%;
+    display: inline-block;
+    opacity: 0;
+}
+
+.label.focus .input-radio {
+    opacity: 1;
+}
+
 .section h5 {
-    margin: 0;
+    margin: 5px 10px;
     position: absolute;
-    margin: 5px;
+    text-align: left;
+    width: 90%;
     left: 10%;
     transition: .2s;
     cursor: text;
@@ -101,6 +116,7 @@ body {
 .label .fas,
 .label .far {
     transition: .2s;
+    width: 8%;
 }
 
 .label.focus .fas {
@@ -121,7 +137,7 @@ body {
 
 .submit {
     display: block;
-    margin: 20px auto 10px;
+    margin: 10px auto;
     border: 0;
     padding: 10px 20px;
     border-radius: 50px;
@@ -150,10 +166,6 @@ body {
     color: var(--special-color);
 }
 
-.section-register {
-
-}
-
 .door {
     width: 250px;
     height: 450px;
@@ -165,11 +177,17 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(10%, -50%);
+    transform: translate(15%, -50%);
     z-index: 0;
-    transition: all .7s;
+    transition: all .4s;
 }
 
 .door.login  {
     transform: translate(-105%, -50%);
+    height: 800px;
+}
+
+.door .door-handle {
+    text-transform: uppercase;
+    font-weight: bold;
 }

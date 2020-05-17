@@ -4,22 +4,31 @@ window.onload = () => {
     const door = document.querySelectorAll('.door')[0];
     const register = document.querySelectorAll('.section-register')[0];
     const login = document.querySelectorAll('.section-login')[0];
-    const inputBig = document.querySelectorAll('.input-big');
 
     inputs.forEach(input => {
         if(input.type=="radio") {
             input.addEventListener("focus", (event) => {
                 event.target.parentElement.parentElement.classList.add('focus');
-                console.log(event.target);
             });
 
             input.addEventListener("blur", (event) => {
                 if(!event.target.value) event.target.parentElement.parentElement.classList.remove('focus');
             });
+        } else if(input.classList.contains('input-big')) {
+            input.addEventListener("focus", (event) => {
+                let input = event.target;
+                input.parentElement.classList.add('focus');
+                (input.type == "text") ? input.type = "date" : false;
+            });
+
+            input.addEventListener("blur", (event) => {
+                let input = event.target;
+                input.parentElement.classList.remove('focus');
+                (input.type == "date" && !event.target.value) ? input.type = "text" : false;
+            });
         } else {
             input.addEventListener("focus", (event) => {
                 event.target.parentElement.classList.add('focus');
-                console.log(event.target);
             });
 
             input.addEventListener("blur", (event) => {
@@ -33,18 +42,6 @@ window.onload = () => {
             event.preventDefault();
             let input = event.target.previousElementSibling;
             (input.type == "password") ? input.type = "text" : input.type = "password";
-        });
-    });
-
-    inputBig.forEach(input => {
-        input.addEventListener("focus", (event) => {
-            let input = event.target;
-            (input.type == "text") ? input.type = "date" : false;
-        });
-
-        input.addEventListener("blur", (event) => {
-            let input = event.target;
-            (input.type == "date" && !event.target.value) ? input.type = "text" : false;
         });
     });
 

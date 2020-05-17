@@ -168,7 +168,7 @@ body {
 
 .door {
     width: 250px;
-    height: 450px;
+    height: 300px;
     padding: 0 10px;
     display: flex;
     justify-content: space-between;
@@ -184,7 +184,6 @@ body {
 
 .door.login  {
     transform: translate(-105%, -50%);
-    height: 800px;
 }
 
 .door .door-handle {

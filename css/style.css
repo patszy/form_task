@@ -6,6 +6,7 @@
     --main-dark-color: #222;
     --main-light-color: #ccc;
     --special-color: #00B0FF;
+    --error-color: #EA2027;
 }
 
 html, body {
@@ -43,7 +44,7 @@ body {
     display: none;
 }
 
-.label {
+.form-row {
     display: block;
     position: relative;
     margin: 15px 0;
@@ -54,7 +55,7 @@ body {
     transition: .2s;
 }
 
-.label::before, .label::after{
+.form-row::before, .form-row::after{
 	content: '';
 	position: absolute;
 	bottom: -2px;
@@ -64,15 +65,15 @@ body {
 	transition: .4s;
 }
 
-.label::before{
+.form-row::before{
 	right: 50%;
 }
 
-.label::after{
+.form-row::after{
 	left: 50%;
 }
 
-.label.focus:before, .label.focus:after{
+.form-row.focus::before, .form-row.focus::after{
 	width: 40%;
 }
 
@@ -99,7 +100,7 @@ body {
     padding-left: 10px;
 }
 
-.label.focus .input-radio {
+.form-row.focus .input-radio {
     opacity: 1;
 }
 
@@ -113,32 +114,32 @@ body {
     cursor: text;
 }
 
-.label.focus h5 {
+.form-row.focus h5 {
     transform: translateY(-30px) scale(.8);
 }
 
-.label .fas,
-.label .far {
+.form-row .fas,
+.form-row .far {
     position: absolute;
     top: 17px;
     transition: .2s;
 }
 
-.label .fas {
+.form-row .fas {
     left: 10px;
 }
 
-.label.focus .fas {
+.form-row.focus .fas {
     color: var(--special-color);
 }
 
-.label .far.fa-eye {
+.form-row .far.fa-eye {
     position: absolute;
     cursor: pointer;
     right: 10px;
 }
 
-.label .far.fa-eye:hover {
+.form-row .far.fa-eye:hover {
     color: var(--special-color);
     transform: scale(1.2);
 }
@@ -197,4 +198,10 @@ body {
 .door .door-handle {
     text-transform: uppercase;
     font-weight: bold;
+}
+
+.form-row.error-field::before,
+.form-row.error-field::after {
+    width: 40%;
+    background-color: var(--error-color);
 }

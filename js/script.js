@@ -1,61 +1,131 @@
-class User {
-    constructor(name, sname, email, password, bdate, gender) {
-        this.name = name;
-        this.sname = sname;
-        this.email = email;
-        this.password = password;
-        this.bdate = bdate;
-        this.gender = gender;
+class FormValidate {
+    constructor(form, options) {
+        const defaultOptions = {
+            classError: `error`
+        }
+
+        this.form = form;
+        this.options = Object.assign({}, defaultOptions, options);
+
+        this.form.setAttribute(`novalidate`, true);
+        this.prepareElements();
+        this.handleSubmit();
+    }
+
+    getFields() {
+        const inputs = [...this.form.querySelectorAll(`input:not(:disabled), select:not(:disabled), textarea:not(:disabled)`)];
+        const result = [];
+
+        for (const element of inputs) if (element.willValidate && element.type != `submit` && element.name != `guardian`) result.push(element);
+
+        return result;
+    }
+
+    prepareElements() {
+        const elements = this.getFields();
+
+        for(const element of elements){
+            const type = element.type.toLowerCase();
+            let eventName = `input`;
+
+            if(type == `checkbox` || type == `radio` || type == `select`) eventName = `change`;
+            if(type == `date`) {
+                const currentDate = new Date();
+                const maxYear = currentDate.getFullYear()-9;
+                element.setAttribute(`max`, `${maxYear}-01-01`);
+            }
+
+            element.addEventListener(eventName, event => this.testInput(event.target));
+        }
+    }
+
+    testInput(input) {
+        let valid = input.checkValidity();
+        if(input.type == `date`) console.log(input.max);
+        this.toggleErrorField(input, !valid);
+        return valid;
+    }
+
+    getErrorText = (element) => {
+        const validity = element.validity;
+        let text = `Wrong value.`;
+
+        if (!validity.valid) {
+            if (validity.valueMissing) text = `Fill field.`;
+            if (validity.typeMismatch) {
+                if (el.type === `email`) text = `Write right email.`;
+                if (el.type === `url`) text = `Write right URL.`;
+            }
+            if (validity.tooShort) text = `Value is too short.`;
+            if (validity.tooLong) text = `Value is too long.`;
+            if (validity.badInput) text = `Write Nubmer.`;
+            if (validity.stepMismatch) text = `Choose right value.`;
+            if (validity.rangeOverflow) {
+                text = `Choose lower value.`;
+                if(element.name == `bdate`) text = `You must be older 10 years.`;
+            }
+            if (validity.rangeUnderflow) text = `Choose higher value.`;
+            if (validity.patternMismatch) {
+                text = `Value does not match to requirements.`;
+
+                if(element.name == `name` || element.name == `sname`) {
+                    text = `Value should start from big letter and have more than 2 chars.`
+                }
+                if(element.name == `password`) {
+                    text = `Value should have letter, number, special char and being longer than 8 chars.`;
+                }
+            }
+        }
+
+        return text;
+    };
+
+    toggleErrorField(field, show, text = ``){
+        const formRow = field.closest(`.form-row`);
+
+        text = this.getErrorText(field);
+
+        if(show) {
+            formRow.classList.add(`error-field`);
+            formRow.setAttribute(`title`, text);
+        } else {
+            formRow.classList.remove(`error-field`);
+            formRow.removeAttribute(`title`);
+        }
+    }
+
+    handleSubmit() {
+        this.form.addEventListener(`submit`, event => {
+            event.preventDefault();
+            const elements = this.getFields();
+
+            for (const element of elements) {
+                this.toggleErrorField(element, !element.checkValidity());
+            }
+        });
     }
 }
 
-let usersTab = [];
-let user = new User(`admin`, `admin1`, `admin@let.mein`, `admin`, `01.01.1970`, `male`);
-
-usersTab.push(user);
-
 window.onload = () => {
-    const inputs = document.querySelectorAll(`.form-container input`);
+    const inputs = document.querySelectorAll(`.form-container input:not([type="submit"])`);
     const eyes = document.querySelectorAll(`.form-row .far.fa-eye`);
-    const door = document.querySelectorAll(`.door`)[0];
-    const register = document.querySelectorAll(`.section-register`)[0];
-    const login = document.querySelectorAll(`.section-login`)[0];
+    const door = document.querySelector(`.door`);
+    const register = document.querySelector(`.section-register`);
+    const login = document.querySelector(`.section-login`);
     const formRegister = document.getElementById(`form-register`);
     const formLogin = document.getElementById(`form-login`);
 
+    const formLoginValidation = new FormValidate(formLogin, {});
+    const formRegisterValidation = new FormValidate(formRegister, {});
+
     inputs.forEach(input => {
-        if(input.type==`radio`) {
-            input.addEventListener(`focus`, (event) => {
-                event.target.parentElement.parentElement.classList.add(`focus`);
-            });
+        input.addEventListener(`focus`, (event) => {
+            event.target.closest('.form-row').classList.add(`focus`);
+        });
 
-            input.addEventListener(`blur`, (event) => {
-                if(!event.target.value) event.target.parentElement.parentElement.classList.remove(`focus`);
-            });
-        } else if(input.classList.contains(`input-big`)) {
-            input.addEventListener(`focus`, (event) => {
-                let input = event.target;
-                input.parentElement.classList.add(`focus`);
-                (input.type == `text`) ? input.type = `date` : false;
-            });
-
-            input.addEventListener(`blur`, (event) => {
-                let input = event.target;
-
-                if(input.type == `date` && !event.target.value){
-                    input.parentElement.classList.remove(`focus`);
-                    input.type = `text`;
-                }
-            });
-        } else {
-            input.addEventListener(`focus`, (event) => {
-                event.target.parentElement.classList.add(`focus`);
-            });
-
-            input.addEventListener(`blur`, (event) => {
-                if(!event.target.value) event.target.parentElement.classList.remove(`focus`);
-            });
-        }
+        input.addEventListener(`blur`, (event) => {
+            if(!event.target.value) event.target.closest('.form-row').classList.remove(`focus`);
+        });
     });
 
     eyes.forEach(eye => {
@@ -77,106 +147,10 @@ window.onload = () => {
         register.style.display = `none`;
         login.style.display = `block`;
     });
-
-    const toggleErrorField = (field, show, text = ``) => {
-        if (show) {
-            field.classList.add(`error-field`);
-            field.setAttribute(`title`, text);
-        } else {
-            field.classList.remove(`error-field`);
-            field.removeAttribute(`title`);
-        }
-    };
-
-    const getErrorText = (element) => {
-        const validity = element.validity;
-
-        if (validity.valid) return true;
-        if (validity.valueMissing) return `Fill field.`;
-        if (validity.typeMismatch) {
-            if (el.type === `email`) return `Write right email.`;
-            if (el.type === `url`) return `Write right URL.`;
-        }
-        if (validity.tooShort) return `Value is too short.`;
-        if (validity.tooLong) return `Value is too long.`;
-        if (validity.badInput) return `Write Nubmer.`;
-        if (validity.stepMismatch) return `Choose right value.`;
-        if (validity.rangeOverflow) return `Choose lower value.`;
-        if (validity.rangeUnderflow) return `Choose higher value.`;
-        if (validity.patternMismatch) return `Value does not match to requirements.`;
-        return `Write right value.`;
-    };
-
-    const formRegisterValidate = () => {
-        formRegister.setAttribute(`novalidate`, true);
-
-        const inputName = formRegister.querySelector(`input[name=name]`);
-        const inputSname = formRegister.querySelector(`input[name=surname]`);
-        const inputEmail = formRegister.querySelector(`input[name=email]`);
-        const inputPassword = formRegister.querySelector(`input[name=password]`);
-        const inputPasswordConfirm = formRegister.querySelector(`input[name=password-confirm]`);
-        const inputBdate = formRegister.querySelector(`input[name=bdate]`);
-        const inputGender = formRegister.querySelectorAll(`input[name=gender]`);
-        const inputGuardian = formRegister.querySelector(`input[name=guardian]`);
-        let formErrors = [];
-
-        console.log(inputName, inputSname, inputEmail, inputPassword, inputPasswordConfirm, inputBdate.value, inputGender.value, inputGuardian);
-
-        formRegister.addEventListener(`submit`, (event) => {
-            event.preventDefault();
-
-            let checkErrors = false;
-
-            if(!inputName.checkValidity()) {
-                toggleErrorField(inputName.closest(`.form-row`), true, getErrorText(inputName));
-                checkErrors = true;
-            }
-            else toggleErrorField(inputName.closest(`.form-row`), false);
-
-            if(!inputSname.checkValidity()) toggleErrorField(inputSname.closest(`.form-row`), true, getErrorText(inputSname));
-            else toggleErrorField(inputSname.closest(`.form-row`), false);
-
-            if(!inputEmail.checkValidity()) toggleErrorField(inputEmail.closest(`.form-row`), true, getErrorText(inputEmail));
-            else toggleErrorField(inputEmail.closest(`.form-row`), false);
-
-            if(!inputPassword.checkValidity()) toggleErrorField(inputPassword.closest(`.form-row`), true, getErrorText(inputPassword));
-            else toggleErrorField(inputPassword.closest(`.form-row`), false);
-
-            if(inputPassword.value !== inputPasswordConfirm.value || inputPassword.value == `` || inputPasswordConfirm.value == ``) toggleErrorField(inputPassword.closest(`.form-row`), true, getErrorText(inputPassword));
-            else toggleErrorField(inputPassword.closest(`.form-row`), false);
-
-            if(inputBdate.value == ``) toggleErrorField(inputBdate.closest(`.form-row`), true, getErrorText(inputBdate));
-            else toggleErrorField(inputBdate.closest(`.form-row`), false);
-
-            let inputGenderCheck = false, gender;
-            inputGender.forEach(input => {
-                if(input.checked) {
-                    inputGenderCheck = true;
-                    gender = input.value;
-                }
-            })
-
-            if(!inputGenderCheck) toggleErrorField(inputGender[0].closest(`.form-row`), true, getErrorText(inputGender[0]));
-            else toggleErrorField(inputGender[0].closest(`.form-row`), false);
-
-            if(inputGuardian.checked) console.log("Congratulations!");
-
-            if(!checkErrors) {
-                event.target.submit();
-            }
-        });
-    }
-
-    formRegisterValidate();
 }
 
 /*
-1. Add validation API.
-2. Add forgot passowrd.
+2. Add forgot password.
 3. Add Logging in.
 4. Handling register and login.
  */
-
- /*  Errors
- 1. Form dostaje klase label nie powinien.
-  */

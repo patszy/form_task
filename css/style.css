@@ -81,7 +81,7 @@ body {
     box-sizing: border-box;
     width: 100%;
     padding: 5px 10px;
-    padding-left: 40px;
+    padding-left: 50px;
     font-size: 1em;
     border: 0;
     background-color: transparent;
@@ -89,8 +89,16 @@ body {
     outline: 0;
 }
 
-.section .input-big {
+.section .input-date {
     height: 40px;
+}
+
+.form-row.focus .input-date {
+    opacity: 1;
+}
+
+.form-row .input-date {
+    opacity: 0;
 }
 
 .section .input-radio {
@@ -109,7 +117,7 @@ body {
     position: absolute;
     text-align: left;
     width: 90%;
-    left: 10%;
+    left: 40px;
     transition: .2s;
     cursor: text;
 }

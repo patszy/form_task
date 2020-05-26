@@ -41,7 +41,6 @@ class FormValidate {
 
     testInput(input) {
         let valid = input.checkValidity();
-        if(input.type == `date`) console.log(input.max);
         this.toggleErrorField(input, !valid);
         return valid;
     }
@@ -53,8 +52,8 @@ class FormValidate {
         if (!validity.valid) {
             if (validity.valueMissing) text = `Fill field.`;
             if (validity.typeMismatch) {
-                if (el.type === `email`) text = `Write right email.`;
-                if (el.type === `url`) text = `Write right URL.`;
+                if (element.type === `email`) text = `Write right email.`;
+                if (element.type === `url`) text = `Write right URL.`;
             }
             if (validity.tooShort) text = `Value is too short.`;
             if (validity.tooLong) text = `Value is too long.`;
@@ -72,7 +71,7 @@ class FormValidate {
                     text = `Value should start from big letter and have more than 2 chars.`
                 }
                 if(element.name == `password`) {
-                    text = `Value should have letter, number, special char and being longer than 8 chars.`;
+                    text = `Value must being longer than 8 chars.`;
                 }
             }
         }
@@ -98,9 +97,15 @@ class FormValidate {
         this.form.addEventListener(`submit`, event => {
             event.preventDefault();
             const elements = this.getFields();
+            let formErrors = false;
 
             for (const element of elements) {
                 this.toggleErrorField(element, !element.checkValidity());
+                if(!element.checkValidity()) formErrors = true;
+            }
+
+            if(!formErrors) {
+                event.target.submit();
             }
         });
     }
@@ -152,5 +157,4 @@ window.onload = () => {
 /*
 2. Add forgot password.
 3. Add Logging in.
-4. Handling register and login.
  */

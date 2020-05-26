@@ -23,7 +23,7 @@
                 <label for="password-login" class="form-row">
                     <h5>Password</h5>
                     <i class="fas fa-unlock-alt"></i>
-                    <input id="password-login" type="password" name="password" class="input" required>
+                    <input id="password-login" type="password" name="password" pattern="^([\w\d][!@#$%&*]?){8,}$" class="input" required>
                     <i class="far fa-eye"></i>
                 </label>
 
@@ -40,32 +40,32 @@
                 <label for="name" class="form-row">
                     <h5>Name</h5>
                     <i class="fas fa-user"></i>
-                    <input id="name" type="text" name="name" pattern="^[A-Z]([',.-]?[a-z])+$" class="input" autocomplete="off" required>
+                    <input id="name" type="text" name="name" pattern="^[A-Z]([',.-]?[a-z])+$" class="input" autocomplete="off" required value="Patryk">
                 </label>
 
                 <label for="Surname" class="form-row">
                     <h5>Surname</h5>
                     <i class="fas fa-user-friends"></i>
-                    <input id="Surname" type="text" name="surname" pattern="^[A-Z]([',.-]?[a-z])+$" class="input" autocomplete="off" required>
+                    <input id="Surname" type="text" name="surname" pattern="^[A-Z]([',.-]?[a-z])+$" class="input" autocomplete="off" required value="Szymczyk">
                 </label>
 
                 <label for="mail" class="form-row">
                     <h5>E-mail (Login)</h5>
                     <i class="fas fa-envelope"></i>
-                    <input id="mail" type="email" name="email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" class="input" autocomplete="off" required>
+                    <input id="mail" type="email" name="email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" class="input" autocomplete="off" required value="patszy97@interia.pl">
                 </label>
 
                 <label for="password-register" class="form-row">
                     <h5>Password</h5>
                     <i class="fas fa-unlock-alt"></i>
-                    <input id="password-register" type="password" name="password" pattern="^\w{7,}[!@#$%&*]?$" class="input" required>
+                    <input id="password-register" type="password" name="password" pattern="^([\w\d][!@#$%&*]?){8,}$" class="input" required value="314159265">
                     <i class="far fa-eye"></i>
                 </label>
 
                 <label for="date" class="form-row">
                     <h5>Birthday Date</h5>
                     <i class="fas fa-calendar-alt"></i>
-                    <input id="date" type="date" name="bdate" class="input input-date" autocomplete="off" required>
+                    <input id="date" type="date" name="bdate" class="input input-date" autocomplete="off" required value="1997-03-08">
                 </label>
 
                 <div for="gender" class="form-row">

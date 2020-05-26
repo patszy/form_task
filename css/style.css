@@ -199,8 +199,16 @@ body {
     transition: all .4s;
 }
 
+.door:hover {
+    transform: translate(20%, -50%);
+}
+
 .door.login  {
     transform: translate(-105%, -50%);
+}
+
+.door.login:hover  {
+    transform: translate(-110%, -50%);
 }
 
 .door .door-handle {
@@ -212,4 +220,8 @@ body {
 .form-row.error-field::after {
     width: 40%;
     background-color: var(--error-color);
+}
+
+.form-row.form-row.error-field .fas {
+    color: var(--error-color);
 }
